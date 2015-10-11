@@ -6,14 +6,14 @@ mean_x = 0;
 mean_y = 0;
 mean_z = 0;
 
-for i = 1:length(inputMatrix(1,:))
-    mean_x = mean_x + inputMatrix(1,i);
-    mean_y = mean_y + inputMatrix(2,i);
-    mean_z = mean_z + inputMatrix(3,i);
+for i = 1:length(inputMatrix(:,1))
+    mean_x = mean_x + inputMatrix(i,1);
+    mean_y = mean_y + inputMatrix(i,2);
+    mean_z = mean_z + inputMatrix(i,3);
 end
 
 
-outputVector = [mean_x, mean_y, mean_z]/length(inputMatrix(1,:));
+outputVector = [mean_x, mean_y, mean_z]/length(inputMatrix(:,1));
 
 end
 
