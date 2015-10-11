@@ -1,12 +1,11 @@
 % Pivot calibration using the pseudo-inverse method
 
 function [Pcal, Ppiv] = pivotCalibration(RList, pList)
-    
-    Rall = [];
-    tall = [];
+    Rall = zeros(0,6);
+    tall = zeros(0,0);
     for i = 1:size(RList)
-        vertcat(Rall, horzcat(RList(i), -1.*eye(3)));
-        vertcat(tall, -1.*pList(i));
+        Rall = vertcat(Rall, horzcat(squeeze(RList(i,:,:)), -1.*eye(3)));
+        tall =vertcat(tall, -1.*pList(:, i));
     end
     
     x = tall\Rall;
