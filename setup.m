@@ -6,13 +6,19 @@ function setup(name)
     [RA, pA] = C2C(calReadings{1,2}, aCloud);
     [RC, pC] = C2C(calReadings{1,3}, cCloud);
     
-    Cest = zeros(size(cCloud));
-    Cest(1, :) = inv(RD)*((RA*cCloud(1,:).' + pA)) - inv(RD)*pD;
+    Cest = zeros(size(calReadings{1,3}));
+    for i = 1:size(cCloud)
+        Cest(i,:) = inv(RD)*(RA*cCloud(i, :).' + pA) - inv(RD)*pD;
+    end
     
-    disp(Cest(1, :));
     disp(calReadings{1,3});
-    disp(calReadings{1,1});
-    disp(dCloud);
+    disp(Cest);
+    
+    %Good testing code
+    %disp(cCloud);
+    %for i = 1:size(calReadings{1,3})
+    %    disp((RC*calReadings{1,3}(i,:).' + pC).');
+    %end
     
     function [d, a, c] = parseCalbody(filename)
         M = csvread(filename, 1, 0);
