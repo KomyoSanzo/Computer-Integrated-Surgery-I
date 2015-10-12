@@ -21,17 +21,17 @@ function setup(name)
             adjusted{i}(j,:) = adjusted{i}(j,:) - G0;
         end
     end
-    disp(size(adjusted));
+    
     Rlist = cell(1, size(adjusted,2));
     plist = cell(1, size(adjusted,2));
     
     for i = 1:size(adjusted, 2)
         [Rlist{i}, plist{i}] = C2C(adjusted{i}, EMPivot{i});
     end
-    disp(Rlist);
-    %disp(EMPivot{1});
-    %disp(calReadings{1,3});
-    %disp(Cest);
+    
+    [Pcal, Ppiv] = pivotCalibration(Rlist, plist);
+    disp(Pcal);
+    disp(Ppiv);
     
     %Good testing code
     %disp(cCloud);
@@ -89,7 +89,6 @@ function setup(name)
         hN = str2double(info(2));
         fN = str2double(info(3));
         R = cell(fN, 2);
-        disp(R);
         for n = 1:fN
             N = 1 + (n - 1)*(dN+hN);
             R{n, 1} =  M(N:(N+dN-1), :,:);
