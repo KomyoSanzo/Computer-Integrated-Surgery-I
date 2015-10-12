@@ -1,5 +1,6 @@
 function setup(name)
 
+    EMPivot = parseEmpivot(strcat(name, '-empivot.txt'));
     calReadings  = parseReadings(strcat(name, '-calreadings.txt'));
     [dCloud, aCloud, cCloud] = parseCalbody(strcat(name, '-calbody.txt'));
     [RD, pD] = C2C(dCloud, calReadings{1,1});
@@ -11,8 +12,24 @@ function setup(name)
         Cest(i,:) = inv(RD)*(RA*cCloud(i, :).' + pA) - inv(RD)*pD;
     end
     
-    disp(calReadings{1,3});
-    disp(Cest);
+    G0 = VectorAverage(EMPivot{1});
+    disp(EMPivot{1}(2,:))
+    
+    
+    adjusted = cell(1, length(EMPivot));
+    
+    for i = 1:length(EMPivot)
+        adjusted{i} = EMPivot{i};
+        for j = 1:length(EMPivot{i})
+            adjusted{i}(j,:) = adjusted{i}(j,:) - G0;
+        end
+    end
+    
+    disp (adjusted);
+    disp (adjusted{1});
+    %disp(EMPivot{1});
+    %disp(calReadings{1,3});
+    %disp(Cest);
     
     %Good testing code
     %disp(cCloud);
