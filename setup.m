@@ -13,9 +13,6 @@ function setup(name)
     end
     
     G0 = VectorAverage(EMPivot{1});
-    disp(EMPivot{1}(2,:))
-    
-    
     adjusted = cell(1, length(EMPivot));
     
     for i = 1:length(EMPivot)
@@ -24,9 +21,14 @@ function setup(name)
             adjusted{i}(j,:) = adjusted{i}(j,:) - G0;
         end
     end
+    disp(size(adjusted));
+    Rlist = cell(1, size(adjusted,2));
+    plist = cell(1, size(adjusted,2));
     
-    disp (adjusted);
-    disp (adjusted{1});
+    for i = 1:size(adjusted, 2)
+        [Rlist{i}, plist{i}] = C2C(adjusted{i}, EMPivot{i});
+    end
+    disp(Rlist);
     %disp(EMPivot{1});
     %disp(calReadings{1,3});
     %disp(Cest);

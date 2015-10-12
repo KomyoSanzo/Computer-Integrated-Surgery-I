@@ -1,18 +1,37 @@
 function setup(name)
 
+    EMPivot = parseEmpivot(strcat(name, '-empivot.txt'));
     calReadings  = parseReadings(strcat(name, '-calreadings.txt'));
     [dCloud, aCloud, cCloud] = parseCalbody(strcat(name, '-calbody.txt'));
     [RD, pD] = C2C(dCloud, calReadings{1,1});
     [RA, pA] = C2C(aCloud, calReadings{1,2});
-    [RC, pC] = C2C(calReadings{1,3}, );
+    [RC, pC] = C2C(cCloud, calReadings{1,3});
     
     Cest = zeros(size(calReadings{1,3}));
     for i = 1:size(cCloud)
         Cest(i,:) = inv(RD)*(RA*cCloud(i, :).' + pA) - inv(RD)*pD;
     end
     
-    disp(calReadings{1,3});
-    disp(Cest);
+    G0 = VectorAverage(EMPivot{1});
+    adjusted = cell(1, length(EMPivot));
+    
+    for i = 1:length(EMPivot)
+        adjusted{i} = EMPivot{i};
+        for j = 1:length(EMPivot{i})
+            adjusted{i}(j,:) = adjusted{i}(j,:) - G0;
+        end
+    end
+    disp(size(adjusted));
+    Rlist = cell(size(adjusted,2));
+    plist = cell(size(adjusted,2));
+    
+    for i = 1:size(adjusted, 2)
+        [Rlist{i}, plist{i}] = C2C(adjusted{i}, EMPivot{i});
+    end
+    disp
+    %disp(EMPivot{1});
+    %disp(calReadings{1,3});
+    %disp(Cest);
     
     %Good testing code
     %disp(cCloud);
@@ -56,10 +75,9 @@ function setup(name)
         gN = str2double(info(1));
         fN = str2double(info(2));
         R = cell(fN,1);
-        disp(R);
         for n = 1:fN
             N = 1 + (n - 1)*(gN);
-            R{n} =  M(N:(N+gN-1), :,:);
+            R{n, 1} =  M(N:(N+gN-1), :,:);
         end
     end
 
