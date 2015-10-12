@@ -2,9 +2,9 @@ function setup(name)
 
     calReadings  = parseReadings(strcat(name, '-calreadings.txt'));
     [dCloud, aCloud, cCloud] = parseCalbody(strcat(name, '-calbody.txt'));
-    [RD, pD] = C2C(calReadings{1,1}, dCloud);
-    [RA, pA] = C2C(calReadings{1,2}, aCloud);
-    [RC, pC] = C2C(calReadings{1,3}, cCloud);
+    [RD, pD] = C2C(dCloud, calReadings{1,1});
+    [RA, pA] = C2C(aCloud, calReadings{1,2});
+    [RC, pC] = C2C(cCloud, calReadings{1,3});
     
     Cest = zeros(size(calReadings{1,3}));
     for i = 1:size(cCloud)
