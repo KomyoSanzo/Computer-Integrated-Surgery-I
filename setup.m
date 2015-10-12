@@ -56,10 +56,9 @@ function setup(name)
         gN = str2double(info(1));
         fN = str2double(info(2));
         R = cell(fN,1);
-        disp(R);
         for n = 1:fN
             N = 1 + (n - 1)*(gN);
-            R{n} =  M(N:(N+gN-1), :,:);
+            R{n, 1} =  M(N:(N+gN-1), :,:);
         end
     end
 
