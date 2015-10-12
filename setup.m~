@@ -1,9 +1,17 @@
-function output = setup(name)
+function setup(name)
 
-    C = parseReadings('pa1-debug-a-calreadings.txt');
-    [
-    [R p] = C2C(C{1,3}, );
-
+    calReadings  = parseReadings(strcat(name, '-calreadings.txt'));
+    [dCloud, aCloud, cCloud] = parseCalbody(strcat(name, '-calbody.txt'));
+    [RD, pD] = C2C(calReadings{1,1}, dCloud);
+    [RA, pA] = C2C(calReadings{1,2}, aCloud);
+    [RC, pC] = C2C(calReadings{1,3}, cCloud);
+    
+    Cest = zeros(size(cCloud));
+    disp(inv(RD)*(RA*cCloud(4,:).' + pA))
+    for i = 1:size(cCloud)
+       Cest(i, :) = inv(RD)((RA*cCloud(i,:).' + pA)) - RD\pD.';
+    end
+    
     function [d, a, c] = parseCalbody(filename)
         M = csvread(filename, 1, 0);
         info = fileread(filename);
@@ -25,7 +33,6 @@ function output = setup(name)
         cN = str2double(info(3));
         fN = str2double(info(4));
         R = cell(fN, 3);
-        disp(R);
         for n = 1:fN
             N = 1 + (n - 1)*(dN+cN+aN);
             R{n, 1} =  M(N:(N+dN-1), :,:);

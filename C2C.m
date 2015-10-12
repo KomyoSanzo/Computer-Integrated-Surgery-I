@@ -25,7 +25,7 @@ for i = 1:numberOfPoints
 end
 
 delta = [H(2,3)-H(3,2) H(3,1)-H(1,3) H(1,2)-H(2,1)].';
-G = [trace(H) delta.'; delta H+H.'-trace(H)*eye];
+G = [trace(H) delta.'; delta H+H.'-trace(H)*eye(3)];
 [V, D] = eig(G);
 
 [~, I] = max(diag(D));

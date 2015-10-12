@@ -1,9 +1,19 @@
-function [R, p] = setup(name)
+function setup(name)
 
-    C = parseReadings('pa1-debug-a-calreadings.txt');
-    [a, b, c] = parseCalbody('pa1-debug-a-calbody.txt');
-    [R, p] = C2C(C{1,3}, c);
-
+    calReadings  = parseReadings(strcat(name, '-calreadings.txt'));
+    [dCloud, aCloud, cCloud] = parseCalbody(strcat(name, '-calbody.txt'));
+    [RD, pD] = C2C(calReadings{1,1}, dCloud);
+    [RA, pA] = C2C(calReadings{1,2}, aCloud);
+    [RC, pC] = C2C(calReadings{1,3}, cCloud);
+    
+    Cest = zeros(size(cCloud));
+    Cest(1, :) = inv(RD)*((RA*cCloud(1,:).' + pA)) - inv(RD)*pD;
+    
+    disp(Cest(1, :));
+    disp(calReadings{1,3});
+    disp(calReadings{1,1});
+    disp(dCloud);
+    
     function [d, a, c] = parseCalbody(filename)
         M = csvread(filename, 1, 0);
         info = fileread(filename);
