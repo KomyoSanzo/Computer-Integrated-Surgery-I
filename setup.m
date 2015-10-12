@@ -1,10 +1,8 @@
-function [R p] = setup(name)
+function [R, p] = setup(name)
 
     C = parseReadings('pa1-debug-a-calreadings.txt');
-    [a b c] = parseCalbody('pa1-debug-a-calbody.txt');
-    disp(size(c));
-    disp(size(C{1,3}));
-    [R p] = C2C(C{1,3}, c);
+    [a, b, c] = parseCalbody('pa1-debug-a-calbody.txt');
+    [R, p] = C2C(C{1,3}, c);
 
     function [d, a, c] = parseCalbody(filename)
         M = csvread(filename, 1, 0);
@@ -27,7 +25,6 @@ function [R p] = setup(name)
         cN = str2double(info(3));
         fN = str2double(info(4));
         R = cell(fN, 3);
-        disp(R);
         for n = 1:fN
             N = 1 + (n - 1)*(dN+cN+aN);
             R{n, 1} =  M(N:(N+dN-1), :,:);
