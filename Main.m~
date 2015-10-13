@@ -18,14 +18,12 @@ function Main(name)
     end
     
     optframes = size(optpivot, 1);
-    disp(optpiv
-    disp(size(optpivot, 1));
+    
     transpivot = cell(1, optframes);
     for n = 1:optframes
         transpivot{n} = zeros(size(optpivot{n,2}));
-        [RD, pD] = CloudToCloud(dCloud, optpivot{n,1});
-            for i = 1:size(cCloud)
-                disp(optpivot{n,2});
+        [RD, pD] = CloudToCloud(optpivot{n,1}, dCloud);
+            for i = 1:size(optpivot{n,2})
                 transpivot{n}(i,:) = RD*optpivot{n,2}(i, :).' + pD;
             end
     end
@@ -33,9 +31,15 @@ function Main(name)
     empPosition = PostPosition(empivot);
     optPosition = PostPosition(transpivot);
     
-    fopen(strcat(name, '-output-1.txt'), 'w');
-    fileID = strcat(name, '-output-1.txt');
-    dlmwrite(fileID, empPosition.', ' ');
-    dlmwrite(fileID, optPosition.', ' ');
-    
+    filename = strcat(name, '-output-1.txt');
+    fopen(filename, 'wt');
+    fileID = fopen(filename, 'a');
+    spec = '  %3.2f,   %3.2f,   %3.2f\n';
+    numC = num2str(size(Cest{1}, 1), '%d');
+    numF = num2str(size(Cest, 2), '%d');
+    fprintf(fileID, strcat(numC, ', ', numF, ', ', filename, '\n'));
+    fprintf(fileID, spec, empPosition.');
+    fprintf(fileID, spec, optPosition.');
+    for i
+    fclose(fileID);
 end
