@@ -5,20 +5,35 @@ function Main(name)
     aCloud = calbody{2};
     cCloud = calbody{3};
     
-    [RD, pD] = CloudToCloud(dCloud, readings{1,1});
-    [RA, pA] = CloudToCloud(aCloud, readings{1,2});
-%    [RC, pC] = CloudToCloud(cCloud, readings{1,3});
+    frames = size(readings, 1);
     
-    Cest = zeros(size(readings{1,3}));
-    for i = 1:size(cCloud)
-        Cest(i,:) = inv(RD)*(RA*cCloud(i, :).' + pA) - inv(RD)*pD;
+    Cest = cell(1, frames);
+    for n = 1:frames
+        Cest{n} = zeros(size(readings{n,3}));
+        [RD, pD] = CloudToCloud(dCloud, readings{n,1});
+        [RA, pA] = CloudToCloud(aCloud, readings{n,2});
+        for i = 1:size(cCloud)
+            Cest{n}(i,:) = RD\(RA*cCloud(i, :).' + pA) - RD\pD;
+        end
     end
     
-    disp(PostPosition(empivot));
+    optframes = size(optpivot, 1);
     
+    transpivot = cell(1, optframes);
+    for n = 1:optframes
+        transpivot{n} = zeros(size(optpivot{n,2}));
+        [RD, pD] = CloudToCloud(optpivot{n,1}, dCloud);
+            for i = 1:size(optpivot{n,2})
+                transpivot{n}(i,:) = RD*optpivot{n,2}(i, :).' + pD;
+            end
+    end
     
-%     Good testing code
-%     disp(readings{1,3});
-%     for i = 1:size(readings{1,3})
-%         disp((RC*cCloud(i,:).' + pC).');
-%     end
+    empPosition = PostPosition(empivot);
+    optPosition = PostPosition(transpivot);
+    
+    fopen(strcat(name, '-output-1.txt'), 'w');
+    fileID = strcat(name, '-output-1.txt');
+    dlmwrite(fileID, empPosition.', ' ');
+    dlmwrite(fileID, optPosition.', ' ');
+    
+end

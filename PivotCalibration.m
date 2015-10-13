@@ -6,6 +6,7 @@ function [Pcal, Ppiv] = PivotCalibration(RList, pList)
     tall = zeros(0,0);
     
     %R and t matrices are generated 
+    
     for i = 1:size(RList, 2)
         Rall = vertcat(Rall, horzcat(RList{i}, -1.*eye(3)));
         tall = vertcat(tall, -1.*pList{i});
