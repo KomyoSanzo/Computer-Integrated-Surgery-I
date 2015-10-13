@@ -31,7 +31,7 @@ function Main(name)
     empPosition = PostPosition(empivot);
     optPosition = PostPosition(transpivot);
     
-    filename = strcat(name, '-output-1.txt');
+    filename = strcat('../OUTPUT/', name, '-output-1.txt');
     fopen(filename, 'wt');
     fileID = fopen(filename, 'a');
     spec = '  %3.2f,   %3.2f,   %3.2f\n';
