@@ -11,5 +11,4 @@ function [Pcal, Ppiv] = PivotCalibration(RList, pList)
     x = Rall\tall;
     Pcal = x(1:3);
     Ppiv = x(4:6);
-    disp(x);
 end
