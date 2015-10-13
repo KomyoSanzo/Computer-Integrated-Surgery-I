@@ -8,8 +8,9 @@ function [Pcal, Ppiv] = pivotCalibration(RList, pList)
         tall = vertcat(tall, -1.*pList{i});
     end
     
-    x = tall\Rall;
+    x = Rall\tall;
     Pcal = x(1:3);
     Ppiv = x(4:6);
+    disp(x);
 
 end
