@@ -12,21 +12,22 @@ function setup(name)
         Cest(i,:) = inv(RD)*(RA*cCloud(i, :).' + pA) - inv(RD)*pD;
     end
     
-    G0 = VectorAverage(EMPivot{1});
-    adjusted = cell(1, length(EMPivot));
-    
+    gAverage = VectorAverage(EMPivot{1});
+    gCloud = cell(length(EMPivot), 1);
     for i = 1:length(EMPivot)
-        adjusted{i} = EMPivot{i};
+        gCloud{i} = EMPivot{i};
         for j = 1:length(EMPivot{i})
-            adjusted{i}(j,:) = adjusted{i}(j,:) - G0;
+            gCloud{i}(j,:) = gCloud{i}(j,:) - gAverage;
+            disp(gAverage);
         end
     end
     
-    Rlist = cell(1, size(adjusted,2));
-    plist = cell(1, size(adjusted,2));
     
-    for i = 1:size(adjusted, 2)
-        [Rlist{i}, plist{i}] = C2C(adjusted{i}, EMPivot{i});
+    Rlist = cell(1, size(gCloud,2));
+    plist = cell(1, size(gCloud,2));
+    
+    for i = 1:size(gCloud, 2)
+        [Rlist{i}, plist{i}] = C2C(EMPivot{i}, gCloud{i});
     end
     
     [Pcal, Ppiv] = pivotCalibration(Rlist, plist);
