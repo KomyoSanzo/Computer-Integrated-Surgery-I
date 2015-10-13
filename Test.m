@@ -11,15 +11,22 @@ function Test(name)
     %Tests to see if using the frame transformation on the cloud points
     %returns value very close to original points. Ensures correct
     %rotation and displacement were returned.
-    [RD, pD] = CloudToCloud(dCloud, readings{1,1});
-    [RA, pA] = CloudToCloud(aCloud, readings{1,2});
-    [RC, pC] = CloudToCloud(cCloud, readings{1,3});
     
-    for n = 1:
-        Cest = zeros(size(readings{1,3}));
+    for n = 1:size(readings, 1)
+        Cest = zeros(size(readings{n,3}));
+        [RD, pD] = CloudToCloud(dCloud, readings{n,1});
+        [RA, pA] = CloudToCloud(aCloud, readings{n,2});
+        [RC, pC] = CloudToCloud(cCloud, readings{n,3});
         for i = 1:size(cCloud)
-            Cest(i,:) = inv(RD)*(RA*cCloud(i, :).' + pA) - inv(RD)*pD;
+            Cest(i,:) = RC*cCloud(i, :).' + pC;
         end
+        for i = 1:size(aCloud)
+            Cest(i,:) = RA*aCloud(i, :).' + pA;
+        end
+        for i = 1:size(dCloud)
+            Cest(i,:) = RA*aCloud(i, :).' + pA;
+        end
+    end
     
     disp(PostPosition(empivot));
     

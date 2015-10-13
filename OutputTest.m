@@ -1,4 +1,4 @@
-function [ output_args ] = OutputTest(filename)
+function [ output_args ] = OutputTest(filename, thresh)
 %OUTPUTTEST Function that tests the actual and expected output from a
 %particular file. Used for error testing to check the differences between
 %our values and the ones provided. 
@@ -28,7 +28,7 @@ for i = 1:length(Actual)
         max = difference;
     end
     
-    if (difference > 1)
+    if (difference > thresh)
         disp(['You have a large distance at index: ', num2str(i)]);
         disp(['with an error of ', num2str(difference)]);
         disp(sprintf('\n'));
@@ -36,8 +36,6 @@ for i = 1:length(Actual)
    
 end
 disp(['Your max distance between expected and actual values is: ', num2str(max)])
-    
-
     
 
 end
