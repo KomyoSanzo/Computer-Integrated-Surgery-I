@@ -1,6 +1,8 @@
 function [ outputVector] = VectorAverage( inputMatrix)
-%UNTITLED3 Summary of this function goes here
-%   Detailed explanation goes here
+%VECTORAVERAGE takes in an Nx3 list of vectors and returns the average of
+%the vectors
+%   The x, y, and z components of the individal vectors are averaged
+%   together to return one single average
 
 mean_x = 0;
 mean_y = 0;

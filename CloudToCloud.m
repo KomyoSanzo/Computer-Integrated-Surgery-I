@@ -1,5 +1,5 @@
 function [ R, p ] = CloudToCloud( listOfPointsA, listOfPointsB )
-%CloudToCloud This function calculates the cloud-to-cloud rigid body
+%CLOUDTOCLOUD This function calculates the cloud-to-cloud rigid body
 %transformation based on two input variables.
 %   The two input variables should composed of an Nx3 sized arrays, where N
 %   is the number of vectors in each cloud. The first, second, and third

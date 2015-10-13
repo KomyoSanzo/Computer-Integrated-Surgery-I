@@ -1,5 +1,9 @@
 function [calbody, readings, empivot, optpivot] = Parse(name)
-    
+%PARSE Takes in the front of text file's name and reads in the necessary
+%information to be returned.
+
+    %The file header has the relevant suffix added and run through helper
+    %functions which formats the information to be returned
     calbody = parseCalbody(strcat(name, '-calbody.txt'));
     readings = parseReadings(strcat(name, '-calreadings.txt'));
     empivot = parseEmpivot(strcat(name, '-empivot.txt'));
