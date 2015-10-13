@@ -15,7 +15,7 @@ function Test(name)
     [RA, pA] = CloudToCloud(aCloud, readings{1,2});
     [RC, pC] = CloudToCloud(cCloud, readings{1,3});
     
-    for n = 1:
+    for n 
         Cest = zeros(size(readings{1,3}));
         for i = 1:size(cCloud)
             Cest(i,:) = inv(RD)*(RA*cCloud(i, :).' + pA) - inv(RD)*pD;
