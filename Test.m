@@ -13,24 +13,30 @@ function Test(name)
     %rotation and displacement were returned.
     
     for n = 1:size(readings, 1)
-        Cest = zeros(size(readings{n,3}));
         [RD, pD] = CloudToCloud(dCloud, readings{n,1});
         [RA, pA] = CloudToCloud(aCloud, readings{n,2});
         [RC, pC] = CloudToCloud(cCloud, readings{n,3});
         for i = 1:size(cCloud)
-            Cest(i,:) = RC*cCloud(i, :).' + pC;
+            difference = readings{n,3}(i,:) - (RC*cCloud(i, :).' + pC).';
+            difference = sqrt(difference*difference');
+            if difference > 20
+                disp('Error: C frame transformation is incorrect');
+            end
         end
         for i = 1:size(aCloud)
-            Cest(i,:) = RA*aCloud(i, :).' + pA;
+            difference = readings{n,2}(i,:) - (RA*aCloud(i, :).' + pA).';
+            difference = sqrt(difference*difference');
+            if difference > 1
+                disp('Error: A frame transformation is incorrect');
+            end
         end
         for i = 1:size(dCloud)
-            Cest(i,:) = RA*aCloud(i, :).' + pA;
+            difference = readings{n,1}(i,:) - (RD*dCloud(i, :).' + pD).';
+            difference = sqrt(difference*difference');
+            if difference > 1
+                disp('Error: B frame transformation is incorrect');
+            end
         end
     end
-    
-    disp(PostPosition(empivot));
-    
-    disp(readings{1,3});
-    for i = 1:size(readings{1,3})
-        disp((RC*cCloud(i,:).' + pC).');
-    end
+    OutputTest(name, 10);
+end
