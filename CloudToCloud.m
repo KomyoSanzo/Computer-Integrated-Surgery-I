@@ -1,4 +1,4 @@
-function [ R, p ] = C2C( listOfPointsA, listOfPointsB )
+function [ R, p ] = CloudToCloud( listOfPointsA, listOfPointsB )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
