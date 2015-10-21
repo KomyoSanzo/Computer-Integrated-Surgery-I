@@ -1,20 +1,25 @@
 function [calbody, readings, empivot, optpivot] = Parse(name)
-    disp(size(parseCalbody(strcat(name + '-calbody.txt'))));
-    calbody = parseCalbody(strcat(name + '-calbody.txt'));
-    readings = parseReadings(strcat(name + '-readings.txt'));
-    empivot = parseEmpivot(strcat(name + '-empivot.txt'));
-    optpivot = parseOptpivot(strcat(name + '-optpivot.txt'));
+%PARSE Takes in the front of text file's name and reads in the necessary
+%information to be returned.
+
+    %The file header has the relevant suffix added and run through helper
+    %functions which formats the information to be returned
+    calbody = parseCalbody(strcat(name, '-calbody.txt'));
+    readings = parseReadings(strcat(name, '-calreadings.txt'));
+    empivot = parseEmpivot(strcat(name, '-empivot.txt'));
+    optpivot = parseOptpivot(strcat(name, '-optpivot.txt'));
     
-    function [d, a, c] = parseCalbody(filename)
+    function R = parseCalbody(filename)
         M = csvread(filename, 1, 0);
         info = fileread(filename);
         info = strsplit(info(1,:), ',');
         dN = str2double(info(1));
         aN = str2double(info(2));
         cN = str2double(info(3));
-        d = M(1:dN, :,:);
-        a = M(dN+1:(aN+dN), :,:);
-        c = M((aN+dN+1):(aN+dN+cN), :,:);
+        R = cell(1, 3);
+        R{1} = M(1:dN, :,:);
+        R{2} = M(dN+1:(aN+dN), :,:);
+        R{3} = M((aN+dN+1):(aN+dN+cN), :,:);
     end
 
     function R = parseReadings(filename)
@@ -31,6 +36,32 @@ function [calbody, readings, empivot, optpivot] = Parse(name)
             R{n, 1} =  M(N:(N+dN-1), :,:);
             R{n, 2} =  M((N+dN):(aN+N+dN-1), :,:);
             R{n, 3} =  M((N+aN+dN):(N+aN+dN+cN-1), :,:);
+        end
+    end
+
+    function R = parseEmpivot(filename)
+        M = csvread(filename, 1, 0);
+        info = fileread(filename);
+        info = strsplit(info(1,:), ',');
+        gN = str2double(info(1));
+        fN = str2double(info(2));
+        R = cell(fN,1);
+        for n = 1:fN
+            N = 1 + (n - 1)*(gN);
+            R{n, 1} =  M(N:(N+gN-1), :,:);
+        end
+    end
+
+    function R = parseEmpivot(filename)
+        M = csvread(filename, 1, 0);
+        info = fileread(filename);
+        info = strsplit(info(1,:), ',');
+        gN = str2double(info(1));
+        fN = str2double(info(2));
+        R = cell(fN,1);
+        for n = 1:fN
+            N = 1 + (n - 1)*(gN);
+            R{n, 1} =  M(N:(N+gN-1), :,:);
         end
     end
 

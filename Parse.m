@@ -1,4 +1,4 @@
-function [calbody, readings, empivot, optpivot] = Parse(name)
+function [calbody, readings, empivot, optpivot, ctfid, emfid, emnav] = Parse(name)
 %PARSE Takes in the front of text file's name and reads in the necessary
 %information to be returned.
 
@@ -8,6 +8,9 @@ function [calbody, readings, empivot, optpivot] = Parse(name)
     readings = parseReadings(strcat(name, '-calreadings.txt'));
     empivot = parseEmpivot(strcat(name, '-empivot.txt'));
     optpivot = parseOptpivot(strcat(name, '-optpivot.txt'));
+    ctfid = parseCTFiducials(strcat(name, '-ct-fiducials.txt'));
+    emfid = parseEMFiducials(strcat(name, '-em-fiducials.txt'));
+    emnav = parseEMNav(strcat(name, '-em-nav.txt'));
     
     function R = parseCalbody(filename)
         M = csvread(filename, 1, 0);
@@ -64,6 +67,41 @@ function [calbody, readings, empivot, optpivot] = Parse(name)
             N = 1 + (n - 1)*(dN+hN);
             R{n, 1} =  M(N:(N+dN-1), :,:);
             R{n, 2} =  M((N+dN):(hN+N+dN-1), :,:);
+        end
+    end
+
+    function R = parseCTFiducials(filename)
+        M = csvread(filename, 1, 0);
+        info = fileread(filename);
+        info = strsplit(info(1,:), ',');
+        bN = str2double(info(1));
+        R = M;
+        disp(R);
+    end
+
+    function R = parseEMFiducials(filename)
+        M = csvread(filename, 1, 0);
+        info = fileread(filename);
+        info = strsplit(info(1,:), ',');
+        gN = str2double(info(1));
+        fN = str2double(info(2));
+        R = cell(fN,1);
+        for n = 1:fN
+            N = 1 + (n - 1)*(gN);
+            R{n, 1} =  M(N:(N+gN-1), :,:);
+        end
+    end
+
+    function R = parseEMNav(filename)
+        M = csvread(filename, 1, 0);
+        info = fileread(filename);
+        info = strsplit(info(1,:), ',');
+        gN = str2double(info(1));
+        fN = str2double(info(2));
+        R = cell(fN,1);
+        for n = 1:fN
+            N = 1 + (n - 1)*(gN);
+            R{n, 1} =  M(N:(N+gN-1), :,:);
         end
     end
 

@@ -1,6 +1,6 @@
 function Main(name)
     
-    [calbody, readings, empivot, optpivot] = Parse(name);
+    [calbody, readings, empivot, optpivot, ctfid, emfid, emnav] = Parse(name);
     dCloud = calbody{1};
     aCloud = calbody{2};
     cCloud = calbody{3};
