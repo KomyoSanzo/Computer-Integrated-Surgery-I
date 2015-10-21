@@ -17,7 +17,9 @@ function Main(name)
         end
     end
     
-    CalculateCoefficients(Cest, readings{n,3});
+    Cem = (readings(:, 3)).';
+    Uem = (ScaleToBox(Cem)); 
+    CalculateCoefficients(Uem, Cest);
     optframes = size(optpivot, 1);
     
     transpivot = cell(1, optframes);

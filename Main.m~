@@ -16,9 +16,9 @@ function Main(name)
             Cest{n}(i,:) = RD\(RA*cCloud(i, :).' + pA) - RD\pD;
         end
     end
-    disp(Cest);
-    disp(Cest{1, 1}(1,:));
-    CalculateCoefficients(Cest, 
+    
+    disp(readings{1, 3}));
+    CalculateCoefficients(Cest, readings{:,3});
     optframes = size(optpivot, 1);
     
     transpivot = cell(1, optframes);
