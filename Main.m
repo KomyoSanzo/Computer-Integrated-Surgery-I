@@ -19,7 +19,10 @@ function Main(name)
     
     Cem = (readings(:, 3)).';
     Uem = (ScaleToBox(Cem)); 
-    CalculateCoefficients(Uem, Cest);
+    Co = CalculateCoefficients(Uem, Cest);
+    P = CorrectDistortion(Uem, Co);
+    disp(P);
+    
     optframes = size(optpivot, 1);
     
     transpivot = cell(1, optframes);

@@ -9,8 +9,8 @@ function [calbody, readings, empivot, optpivot, ctfid, emfid, emnav] = Parse(nam
     empivot = parseEmpivot(strcat(name, '-empivot.txt'));
     optpivot = parseOptpivot(strcat(name, '-optpivot.txt'));
     ctfid = parseCTFiducials(strcat(name, '-ct-fiducials.txt'));
-    emfid = parseEMFiducials(strcat(name, '-em-fiducials.txt'));
-    emnav = parseEMNav(strcat(name, '-em-nav.txt'));
+    emfid = parseEMFiducials(strcat(name, '-em-fiducialss.txt'));
+    emnav = parseEMNav(strcat(name, '-EM-nav.txt'));
     
     function R = parseCalbody(filename)
         M = csvread(filename, 1, 0);
@@ -76,7 +76,6 @@ function [calbody, readings, empivot, optpivot, ctfid, emfid, emnav] = Parse(nam
         info = strsplit(info(1,:), ',');
         bN = str2double(info(1));
         R = M;
-        disp(R);
     end
 
     function R = parseEMFiducials(filename)

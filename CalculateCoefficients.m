@@ -28,6 +28,7 @@ for n = 1:size(p, 2)
         i = i + 1;
     end
 end
-coefficients = Fmatrix\Pcorrected;
 
-disp(coefficients);
+disp(Pcorrected);
+
+coefficients = Fmatrix\Pcorrected;

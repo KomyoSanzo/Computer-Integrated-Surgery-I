@@ -1,6 +1,6 @@
 function Main(name)
     
-    [calbody, readings, empivot, optpivot] = Parse(name);
+    [calbody, readings, empivot, optpivot, ctfid, emfid, emnav] = Parse(name);
     dCloud = calbody{1};
     aCloud = calbody{2};
     cCloud = calbody{3};
@@ -17,8 +17,12 @@ function Main(name)
         end
     end
     
-    disp(readings{1, 3}));
-    CalculateCoefficients(Cest, readings{:,3});
+    Cem = (readings(:, 3)).';
+    Uem = (ScaleToBox(Cem)); 
+    Co = CalculateCoefficients(Uem, Cest);
+    P = CorrectDistortion(Uem, Co);
+    
+    
     optframes = size(optpivot, 1);
     
     transpivot = cell(1, optframes);
