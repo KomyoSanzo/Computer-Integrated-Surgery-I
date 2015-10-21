@@ -1,0 +1,1 @@
+function [ output_args ] = CalculateCoefficients(filename, thresh)
