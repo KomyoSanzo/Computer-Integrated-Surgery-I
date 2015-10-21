@@ -1,4 +1,4 @@
-function [ coefficients ] = CalculateCoefficients(u, p)
+function [ c ] = CalculateCoefficients(u, p)
 
 Fmatrix = zeros(0, 5);
 Pcorrected = zeros(0, 3);
@@ -31,7 +31,4 @@ end
 
 disp(Fmatrix);
 disp(Pcorrected);
-
-coefficients = Fmatrix\Pcorrected;
-
-disp(coefficients);
+c = Fmatrix\Pcorre;

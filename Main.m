@@ -17,6 +17,7 @@ function Main(name)
         end
     end
     
+    CalculateCoefficients(Cest, readings{n,3});
     optframes = size(optpivot, 1);
     
     transpivot = cell(1, optframes);
@@ -31,20 +32,20 @@ function Main(name)
     empPosition = PostPosition(empivot);
     optPosition = PostPosition(transpivot);
     
-    filename = strcat('../OUTPUT/', name, '-output-1.txt');
-    fopen(filename, 'wt');
-    fileID = fopen(filename, 'a');
-    spec = '  %3.2f,   %3.2f,   %3.2f\n';
-    numC = num2str(size(Cest{1}, 1), '%d');
-    numF = num2str(size(Cest, 2), '%d');
-    header = [numC, ', ', numF, ', ', filename, '\n'];
-    fprintf(fileID, header);
-    fprintf(fileID, spec, empPosition.');
-    fprintf(fileID, spec, optPosition.');
-    for i = 1:size(Cest, 2)
-        for n = 1:size(Cest{i},1)
-            fprintf(fileID, spec, Cest{i}(n,:));
-        end
-    end
-    fclose(fileID);
+%     filename = strcat('../OUTPUT/', name, '-output-1.txt');
+%     fopen(filename, 'wt');
+%     fileID = fopen(filename, 'a');
+%     spec = '  %3.2f,   %3.2f,   %3.2f\n';
+%     numC = num2str(size(Cest{1}, 1), '%d');
+%     numF = num2str(size(Cest, 2), '%d');
+%     header = [numC, ', ', numF, ', ', filename, '\n'];
+%     fprintf(fileID, header);
+%     fprintf(fileID, spec, empPosition.');
+%     fprintf(fileID, spec, optPosition.');
+%     for i = 1:size(Cest, 2)
+%         for n = 1:size(Cest{i},1)
+%             fprintf(fileID, spec, Cest{i}(n,:));
+%         end
+%     end
+%     fclose(fileID);
 end
