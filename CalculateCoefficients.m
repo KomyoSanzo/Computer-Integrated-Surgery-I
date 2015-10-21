@@ -4,12 +4,12 @@ Fmatrix = zeros(0, 5);
 Pcorrected = zeros(0, 3);
 
 i = 1;
-for n = 1:size(u, 2)
-    for x = 1:size(u{n}, 1)
+for n = 1:size(u, 1)
+    for x = 1:size(u{n, 3}, 1)
         for k = 1:5
-           vx = u{1, n}(x, 1);
-           vy = u{1, n}(x, 2);
-           vz = u{1, n}(x, 3);
+           vx = u{n, 3}(x, 1);
+           vy = u{n, 3}(x, 2);
+           vz = u{n, 3}(x, 3);
            Bx = nchoosek(5,k)*((1-vx)^(5-k))*(vx^k);
            By = nchoosek(5,k)*((1-vy)^(5-k))*(vy^k);
            Bz = nchoosek(5,k)*((1-vz)^(5-k))*(vz^k);
@@ -28,10 +28,6 @@ for n = 1:size(p, 2)
         i = i + 1;
     end
 end
-
-disp(Fmatrix);
-disp(Pcorrected);
-
 coefficients = Fmatrix\Pcorrected;
 
 disp(coefficients);

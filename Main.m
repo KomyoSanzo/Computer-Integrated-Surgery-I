@@ -17,7 +17,8 @@ function Main(name)
         end
     end
     
-    CalculateCoefficients(Cest, readings{n,3});
+    disp(readings{1, 3}(:, 1));
+    CalculateCoefficients(readings, Cest);
     optframes = size(optpivot, 1);
     
     transpivot = cell(1, optframes);
