@@ -1,6 +1,6 @@
-function position = PostPosition(pivot)
-%POSTPOSITION Finds the post position by calculating the average and
-%performing pivot calculation to the different frames
+function g = GetLocations(pivot, Pcal)
+%GetLocation finds the fiducial points in the EM frame by using the Pcal
+%value from the pivot calibration step
 
     %An empty cloud is created and the initial average/frame is calculated
     cloud = cell(length(pivot), 1);
@@ -21,10 +21,16 @@ function position = PostPosition(pivot)
     
     %Each R and p is calculated and added
     for i = 1:size(cloud, 1)
-        [Rlist{i}, plist{i}] = CloudToCloud(pivot{i}, cloud{1});
+        [Rlist{i}, plist{i}] = CloudToCloud(cloud{1}, pivot{i});
     end
     
-    %List of R's and p's are used to calculate position using the
-    %PivotCalibration function
-    [position, ~] = PivotCalibration(Rlist, plist);
+    %Each point is calculated using the previously found Pcal value
+    g = zeros(size(cloud, 1), 3);
+    for i = 1:size(cloud, 1)
+        point = Rlist{i}*Pcal + plist{i};
+        g(i, 1) = point(1);
+        g(i, 2) = point(2);
+        g(i, 3) = point(3);
+    end
+    
 end

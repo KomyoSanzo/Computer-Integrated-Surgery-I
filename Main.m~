@@ -17,27 +17,44 @@ function Main(name)
         end
     end
     
-    disp(size(empivot));
-    disp(size(empivot{1}));
-    
     Cem = (readings(:, 3)).';
-    Uem = (ScaleToBox2(Cem)); 
+    [Uem, mini, maxi] = (ScaleToBox2(Cem)); 
     
-    U_EMpivot = (ScaleToBox2(empivot));
-    
-    disp(size(U_EMpivot));
-    disp(size(U_EMpivot{1}));
-    
-    
+    U_EMpivot = (ScaleToBox(empivot, mini, maxi));
     
     Co = CalculateCoefficients(Uem, Cest);
 
     corrected_EM = CorrectDistortion(U_EMpivot.', Co);
     
-    disp(corrected_EM);
-    disp(empivot);
-    empPosition = PostPosition(corrected_EM);
-    disp(empPosition);
+    fN = length(empivot);
+    gN = length(empivot{1});
+    
+    cell_corrected_EM = cell(fN,1);
+    for n = 1:fN
+        N = 1 + (n - 1)*(gN);
+        cell_corrected_EM{n, 1} =  corrected_EM(N:(N+gN-1), :,:);
+    end
+    
+    empPosition = PostPosition(cell_corrected_EM);
+    
+    U_emfid = (ScaleToBox(emfid, mini, maxi));
+    
+    corrected_emfid = CorrectDistortion(U_emfid.', Co);
+    
+    fN = length(emfid);
+    gN = length(emfid{1});
+    
+    cell_corrected_EMFid = cell(fN);
+    for n = 1:fN
+        N = 1 + (n - 1)*(gN);
+        cell_corrected_EMFid{n} =  corrected_emfid(N:(N+gN-1), :,:);
+    end
+    
+    
+    fid_locations = GetLocations(cell_corrected_EMFid, empPosition);
+    
+    disp(fid_locations);
+    d
     
 %     optframes = size(optpivot, 1);
 %     

@@ -1,6 +1,7 @@
 function [ u ] = ScaleToBox( x, mini, maxi )
-%SCALETOBOX Summary of this function goes here
-%   Detailed explanation goes here
+% SCALETOBOX finds the maximum and minimum for each x, y, and z
+% and scales data to be squared within these values.
+
 u = cell(size(x));
 
 for i = 1:length(x)

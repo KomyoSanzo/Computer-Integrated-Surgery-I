@@ -17,16 +17,10 @@ function Main(name)
         end
     end
     
-    disp(size(empivot));
-    disp(size(empivot{1}));
-    
     Cem = (readings(:, 3)).';
     [Uem, mini, maxi] = (ScaleToBox2(Cem)); 
     
     U_EMpivot = (ScaleToBox(empivot, mini, maxi));
-    
-    disp(size(U_EMpivot));
-    disp(size(U_EMpivot{1}));
     
     Co = CalculateCoefficients(Uem, Cest);
 
@@ -41,23 +35,46 @@ function Main(name)
         cell_corrected_EM{n, 1} =  corrected_EM(N:(N+gN-1), :,:);
     end
     
-    disp(cell_corrected_EM);
-    disp(empivot);
     empPosition = PostPosition(cell_corrected_EM);
-    disp(empPosition);
     
-%     optframes = size(optpivot, 1);
-%     
-%     transpivot = cell(1, optframes);
-%     for n = 1:optframes
-%         transpivot{n} = zeros(size(optpivot{n,2}));
-%         [RD, pD] = CloudToCloud(optpivot{n,1}, dCloud);
-%             for i = 1:size(optpivot{n,2})
-%                 transpivot{n}(i,:) = RD*optpivot{n,2}(i, :).' + pD;
-%             end
-%     end
-%    
-%     optPosition = PostPosition(transpivot);
+    U_emfid = (ScaleToBox(emfid, mini, maxi));
+    
+    corrected_emfid = CorrectDistortion(U_emfid.', Co);
+    
+    fN = length(emfid);
+    gN = length(emfid{1});
+    
+    cell_corrected_EMFid = cell(fN);
+    for n = 1:fN
+        N = 1 + (n - 1)*(gN);
+        cell_corrected_EMFid{n} =  corrected_emfid(N:(N+gN-1), :,:);
+    end
+    
+    
+    fid_locations = GetLocations(cell_corrected_EMFid, empPosition);
+    
+    disp(fid_locations);
+    
+    [R_reg, p_reg] = CloudToCloud(fid_locations, ctfid);
+    
+    U_nav = ScaleToBox(emnav, mini, maxi);
+    corrected_nav = CorrectDistortion(U_nav.', Co);
+    
+    fN = length(emnav);
+    gN = length(emnav{1});
+    
+    cell_corrected_EMNav = cell(fN);
+    for n = 1:fN
+        N = 1 + (n - 1)*(gN);
+        cell_corrected_EMNav{n} =  corrected_nav(N:(N+gN-1), :,:);
+    end
+    
+    nav_locations = GetLocations(cell_corrected_EMNav, empPosition);
+    
+    for n = 1:length(nav_locations)
+        nav_locations(n, :) = (R_reg*(nav_locations(n, :).') + p_reg).';
+    end
+    disp(nav_locations);
     
 %     filename = strcat('../OUTPUT/', name, '-output-1.txt');
 %     fopen(filename, 'wt');

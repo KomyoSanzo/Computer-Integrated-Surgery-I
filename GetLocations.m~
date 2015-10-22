@@ -1,7 +1,4 @@
-function position = PostPosition(pivot)
-%POSTPOSITION Finds the post position by calculating the average and
-%performing pivot calculation to the different frames
-
+function g = GetLocations(pivot, Pcal)
     %An empty cloud is created and the initial average/frame is calculated
     cloud = cell(length(pivot), 1);
     average = VectorAverage(pivot{1});
@@ -24,7 +21,7 @@ function position = PostPosition(pivot)
         [Rlist{i}, plist{i}] = CloudToCloud(pivot{i}, cloud{1});
     end
     
-    %List of R's and p's are used to calculate position using the
-    %PivotCalibration function
-    [position, ~] = PivotCalibration(Rlist, plist);
+    for i = 1:size(clous, 1)
+        g
+    
 end

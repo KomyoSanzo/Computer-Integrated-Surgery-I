@@ -1,8 +1,13 @@
 function [ coefficients ] = CalculateCoefficients(u, p)
+% CalculateCoefficients calculates the Bernstein coefficients by creating
+% an F matrix from the scaled-to-box distorted values and solving the
+% coefficients for the ground truth estimated values
 
+%Empty matrices for the F matrix and corrected values are created
 Fmatrix = zeros(0, 216);
 Pcorrected = zeros(0, 3);
 
+%An F matrix is parsed from the scaled to box distorted values
 h = 1;
 for n = 1:size(u, 2)
     for x = 1:size(u{n}, 1)
@@ -25,6 +30,7 @@ for n = 1:size(u, 2)
     end
 end
 
+%A P matrix is parsed from the ground truth points
 i = 1;
 for n = 1:size(p, 2)
     for x = 1:size(p{n}, 1)
@@ -34,5 +40,6 @@ for n = 1:size(p, 2)
         i = i + 1;
     end
 end
+
+%The coefficients are solved for
 coefficients = Fmatrix\Pcorrected;
-%coefficients = inv(Fmatrix.'*Fmatrix)*Fmatrix.'*Pcorrected;

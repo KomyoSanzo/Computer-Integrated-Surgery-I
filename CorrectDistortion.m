@@ -1,8 +1,11 @@
 function [ Pcorrected ] = CorrectDistortion(u, c)
+% CorrectDistortion uses the passed in Bernstein coefficients to corrected
+% the distortion in a set of distorted points.
 
+% Empty matrix for the F matrix
 Fmatrix = zeros(0, 216);
 
-
+% F matrix is calculated from distorted values
 h = 1;
 for n = 1:length(u)
     for x = 1:length(u{n})
@@ -25,4 +28,5 @@ for n = 1:length(u)
     end
 end
 
+% F matrix is multiplied by the coefficients to get the corrected values
 Pcorrected = Fmatrix*c;
