@@ -53,7 +53,7 @@ function Main(name)
     fid_locations = GetLocations(cell_corrected_EMFid, empPiv, average);
     
     % Display resluts
-    disp(empPost);
+    disp(empPiv);
     disp(fid_locations);
     
     % Calculate registration frame from fidlocations and ct fidlocations
@@ -61,6 +61,7 @@ function Main(name)
     disp(R_reg);
     disp(p_reg);
     
+         
     % Correct new values using Bernstein coefficients and re-parse
     U_nav = ScaleToBox(emnav, mini, maxi);
     corrected_nav = CorrectDistortion(U_nav.', Co);
@@ -79,7 +80,7 @@ function Main(name)
     end
     disp(nav_locations);
     
-%     filename = strcat('../OUTPUT/', name, '-output-1.txt');
+%     filename = strcat('../OUTPUT/', name, '-output-2.txt');
 %     fopen(filename, 'wt');
 %     fileID = fopen(filename, 'a');
 %     spec = '  %3.2f,   %3.2f,   %3.2f\n';
