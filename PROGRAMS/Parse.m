@@ -4,13 +4,13 @@ function [calbody, readings, empivot, optpivot, ctfid, emfid, emnav] = Parse(nam
 
     %The file header has the relevant suffix added and run through helper
     %functions which formats the information to be returned
-    calbody = parseCalbody(strcat(name, '-calbody.txt'));
-    readings = parseReadings(strcat(name, '-calreadings.txt'));
-    empivot = parseEmpivot(strcat(name, '-empivot.txt'));
-    optpivot = parseOptpivot(strcat(name, '-optpivot.txt'));
-    ctfid = parseCTFiducials(strcat(name, '-ct-fiducials.txt'));
-    emfid = parseEMFiducials(strcat(name, '-em-fiducialss.txt'));
-    emnav = parseEMNav(strcat(name, '-EM-nav.txt'));
+    calbody = parseCalbody(strcat('../DATA/', name, '-calbody.txt'));
+    readings = parseReadings(strcat('../DATA/', name, '-calreadings.txt'));
+    empivot = parseEmpivot(strcat('../DATA/', name, '-empivot.txt'));
+    optpivot = parseOptpivot(strcat('../DATA/', name, '-optpivot.txt'));
+    ctfid = parseCTFiducials(strcat('../DATA/', name, '-ct-fiducials.txt'));
+    emfid = parseEMFiducials(strcat('../DATA/', name, '-em-fiducialss.txt'));
+    emnav = parseEMNav(strcat('../DATA/', name, '-EM-nav.txt'));
     
     function R = parseCalbody(filename)
         M = csvread(filename, 1, 0);
