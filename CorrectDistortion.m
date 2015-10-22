@@ -4,8 +4,8 @@ Fmatrix = zeros(0, 216);
 
 
 h = 1;
-for n = 1:size(u, 2)
-    for x = 1:size(u{n}, 1)
+for n = 1:length(u)
+    for x = 1:length(u{n})
         g = 1;
         for i = 0:5
             for j = 0:5

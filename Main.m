@@ -17,25 +17,47 @@ function Main(name)
         end
     end
     
+    disp(size(empivot));
+    disp(size(empivot{1}));
+    
     Cem = (readings(:, 3)).';
     Uem = (ScaleToBox2(Cem)); 
+    
+    U_EMpivot = (ScaleToBox2(empivot));
+    
+    disp(size(U_EMpivot));
+    disp(size(U_EMpivot{1}));
+    
     Co = CalculateCoefficients(Uem, Cest);
-    P = CorrectDistortion(Uem, Co);
-    %disp(P);
+
+    corrected_EM = CorrectDistortion(U_EMpivot.', Co);
     
-    optframes = size(optpivot, 1);
+    fN = length(empivot);
+    gN = length(empivot{1});
     
-    transpivot = cell(1, optframes);
-    for n = 1:optframes
-        transpivot{n} = zeros(size(optpivot{n,2}));
-        [RD, pD] = CloudToCloud(optpivot{n,1}, dCloud);
-            for i = 1:size(optpivot{n,2})
-                transpivot{n}(i,:) = RD*optpivot{n,2}(i, :).' + pD;
-            end
+    cell_corrected_EM = cell(fN,1);
+    for n = 1:fN
+        N = 1 + (n - 1)*(gN);
+        cell_corrected_EM{n, 1} =  corrected_EM(N:(N+gN-1), :,:);
     end
     
-    empPosition = PostPosition(empivot);
-    optPosition = PostPosition(transpivot);
+    disp(cell_corrected_EM);
+    disp(empivot);
+    empPosition = PostPosition(cell_corrected_EM);
+    disp(empPosition);
+    
+%     optframes = size(optpivot, 1);
+%     
+%     transpivot = cell(1, optframes);
+%     for n = 1:optframes
+%         transpivot{n} = zeros(size(optpivot{n,2}));
+%         [RD, pD] = CloudToCloud(optpivot{n,1}, dCloud);
+%             for i = 1:size(optpivot{n,2})
+%                 transpivot{n}(i,:) = RD*optpivot{n,2}(i, :).' + pD;
+%             end
+%     end
+%    
+%     optPosition = PostPosition(transpivot);
     
 %     filename = strcat('../OUTPUT/', name, '-output-1.txt');
 %     fopen(filename, 'wt');
