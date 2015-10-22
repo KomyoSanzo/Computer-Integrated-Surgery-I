@@ -21,7 +21,7 @@ function g = GetLocations(pivot, Pcal)
     
     %Each R and p is calculated and added
     for i = 1:size(cloud, 1)
-        [Rlist{i}, plist{i}] = CloudToCloud(cloud{1}, pivot{i});
+        [Rlist{i}, plist{i}] = CloudToCloud(pivot{i}, cloud{1});
     end
     
     %Each point is calculated using the previously found Pcal value

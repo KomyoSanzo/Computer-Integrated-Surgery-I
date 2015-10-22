@@ -53,9 +53,12 @@ function Main(name)
     
     fid_locations = GetLocations(cell_corrected_EMFid, empPosition);
     
+    disp(empPosition);
     disp(fid_locations);
     
-    [R_reg, p_reg] = CloudToCloud(fid_locations, ctfid);
+    [R_reg, p_reg] = CloudToCloud(ctfid, fid_locations);
+    disp(R_reg);
+    disp(p_reg);
     
     U_nav = ScaleToBox(emnav, mini, maxi);
     corrected_nav = CorrectDistortion(U_nav.', Co);

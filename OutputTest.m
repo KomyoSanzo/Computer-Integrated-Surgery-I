@@ -3,12 +3,12 @@ function [ output_args ] = OutputTest(filename, thresh)
 %particular file. Used for error testing to check the differences between
 %our values and the ones provided. 
 
-Expected = csvread(strcat(filename, '-output1.txt'), 1, 0);
-Expected_info = fileread(strcat(filename, '-output1.txt'));
+Expected = csvread(strcat(filename, '-output2.txt'), 1, 0);
+Expected_info = fileread(strcat(filename, '-output2.txt'));
 Expected_info = strsplit(Expected_info(1,:), ',');
 
-Actual = csvread(strcat(filename, '-output-1.txt'), 1, 0);
-Actual_info = fileread(strcat(filename, '-output1.txt'));
+Actual = csvread(strcat(filename, '-output-2.txt'), 1, 0);
+Actual_info = fileread(strcat(filename, '-output2.txt'));
 Actual_info = strsplit(Actual_info(1,:), ',');
 
 if str2double(Actual_info(1)) ~= str2double(Expected_info(1))
