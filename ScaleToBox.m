@@ -10,7 +10,7 @@ end
 
 for i = 1:3
     for j = 1:length(x)
-        u{j}(:,i) = (x{j}(:,i)-mini)/(maxi-mini);
+        u{j}(:,i) = (x{j}(:,i)-mini(i))/(maxi(i)-mini(i));
     end
 end
 
