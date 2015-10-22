@@ -21,9 +21,9 @@ function Main(name)
     disp(size(empivot{1}));
     
     Cem = (readings(:, 3)).';
-    Uem = (ScaleToBox2(Cem)); 
+    [Uem, mini, maxi] = (ScaleToBox2(Cem)); 
     
-    U_EMpivot = (ScaleToBox2(empivot));
+    U_EMpivot = (ScaleToBox(empivot, mini, maxi));
     
     disp(size(U_EMpivot));
     disp(size(U_EMpivot{1}));
