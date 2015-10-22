@@ -18,7 +18,7 @@ function Main(name)
     end
     
     Cem = (readings(:, 3)).';
-    Uem = (ScaleToBox(Cem)); 
+    Uem = (ScaleToBox2(Cem)); 
     Co = CalculateCoefficients(Uem, Cest);
     P = CorrectDistortion(Uem, Co);
     disp(P);

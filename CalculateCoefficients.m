@@ -1,21 +1,27 @@
 function [ coefficients ] = CalculateCoefficients(u, p)
 
-Fmatrix = zeros(0, 5);
+Fmatrix = zeros(0, 216);
 Pcorrected = zeros(0, 3);
 
-i = 1;
+h = 1;
 for n = 1:size(u, 2)
     for x = 1:size(u{n}, 1)
-        for k = 1:5
-           vx = u{1, n}(x, 1);
-           vy = u{1, n}(x, 2);
-           vz = u{1, n}(x, 3);
-           Bx = nchoosek(5,k)*((1-vx)^(5-k))*(vx^k);
-           By = nchoosek(5,k)*((1-vy)^(5-k))*(vy^k);
-           Bz = nchoosek(5,k)*((1-vz)^(5-k))*(vz^k);
-           Fmatrix(i, k) = Bx*By*Bz;
+        g = 1;
+        for i = 0:5
+            for j = 0:5
+                for k = 0:5
+                   vx = u{1, n}(x, 1);
+                   vy = u{1, n}(x, 2);
+                   vz = u{1, n}(x, 3);
+                   Bx = nchoosek(5,i)*((1-vx)^(5-i))*(vx^i);
+                   By = nchoosek(5,j)*((1-vy)^(5-j))*(vy^j);
+                   Bz = nchoosek(5,k)*((1-vz)^(5-k))*(vz^k);
+                   Fmatrix(h, g) = Bx*By*Bz;
+                   g = g + 1;
+                end
+            end
         end
-        i = i + 1;
+        h = h + 1;
     end
 end
 
@@ -29,6 +35,8 @@ for n = 1:size(p, 2)
     end
 end
 
-disp(Pcorrected);
-
 coefficients = Fmatrix\Pcorrected;
+
+disp(Fmatrix);
+disp(coefficients);
+disp(Pcorrected);
