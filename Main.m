@@ -36,6 +36,7 @@ function Main(name)
     
     % Get the post calibration
     [empPost, empPiv] = PostPosition(cell_corrected_EM);
+    average = VectorAverage(cell_corrected_EM{1});
     
     % Undistort and reparse EM fiducial points
     U_emfid = (ScaleToBox(emfid, mini, maxi));
@@ -49,7 +50,7 @@ function Main(name)
     end
     
     % Get fiducial locations
-    fid_locations = GetLocations(cell_corrected_EMFid, empPiv);
+    fid_locations = GetLocations(cell_corrected_EMFid, empPiv, average);
     
     % Display resluts
     disp(empPost);
@@ -72,7 +73,7 @@ function Main(name)
     end
     
     % Get the locations and transform them to CT coorrdinates
-    nav_locations = GetLocations(cell_corrected_EMNav, empPiv);
+    nav_locations = GetLocations(cell_corrected_EMNav, empPiv, average);
     for n = 1:length(nav_locations)
         nav_locations(n, :) = (R_reg*(nav_locations(n, :).') + p_reg).';
     end

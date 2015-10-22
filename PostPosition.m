@@ -1,4 +1,4 @@
-function position = PostPosition(pivot)
+function [Pcal, Ppiv] = PostPosition(pivot)
 %POSTPOSITION Finds the post position by calculating the average and
 %performing pivot calculation to the different frames
 
@@ -26,5 +26,5 @@ function position = PostPosition(pivot)
     
     %List of R's and p's are used to calculate position using the
     %PivotCalibration function
-    [position, ~] = PivotCalibration(Rlist, plist);
+    [Pcal, Ppiv] = PivotCalibration(Rlist, plist);
 end

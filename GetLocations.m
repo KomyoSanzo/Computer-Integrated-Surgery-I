@@ -1,10 +1,9 @@
-function g = GetLocations(pivot, Pcal)
+function g = GetLocations(pivot, Pcal, average)
 %GetLocation finds the fiducial points in the EM frame by using the Pcal
 %value from the pivot calibration step
 
     %An empty cloud is created and the initial average/frame is calculated
     cloud = cell(length(pivot), 1);
-    average = VectorAverage(pivot{1});
     
     %Each value in the cloud is adjusted by the initial average calculated
     %in the first frame
@@ -21,7 +20,7 @@ function g = GetLocations(pivot, Pcal)
     
     %Each R and p is calculated and added
     for i = 1:size(cloud, 1)
-        [Rlist{i}, plist{i}] = CloudToCloud(pivot{i}, cloud{1});
+        [Rlist{i}, plist{i}] = CloudToCloud(cloud{1}, pivot{i});
     end
     
     %Each point is calculated using the previously found Pcal value
