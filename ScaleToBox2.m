@@ -18,11 +18,11 @@ for i = 1:3
         if min(x{j}(:,i)) < global_min
             global_min = min(x{j}(:,i));
         end
+    end
+    for j = 1:length(x)
         u{j}(:,i) = (x{j}(:,i)-global_min)/(global_max-global_min);
     end
-    
 end
-
 
 
 
