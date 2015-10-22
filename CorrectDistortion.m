@@ -2,6 +2,7 @@ function [ Pcorrected ] = CorrectDistortion(u, c)
 
 Fmatrix = zeros(0, 216);
 
+
 h = 1;
 for n = 1:size(u, 2)
     for x = 1:size(u{n}, 1)

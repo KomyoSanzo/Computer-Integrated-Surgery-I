@@ -21,7 +21,7 @@ function Main(name)
     Uem = (ScaleToBox2(Cem)); 
     Co = CalculateCoefficients(Uem, Cest);
     P = CorrectDistortion(Uem, Co);
-    disp(P);
+    %disp(P);
     
     optframes = size(optpivot, 1);
     
