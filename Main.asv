@@ -74,7 +74,7 @@ function Main(name)
     end
     
     % Get the locations and transform them to CT coorrdinates
-    nav_locations = GetLocationsReg(cell_corrected_EMNav, test, average, gk, R_reg, p_reg);
+    nav_locations = GetLocationsReg(cell_corrected_EMNav, test, average, gk);
     disp(nav_locations);
     
     filename = strcat('OUTPUT/', name, '-output-2.txt');
