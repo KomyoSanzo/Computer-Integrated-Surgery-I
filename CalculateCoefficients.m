@@ -4,8 +4,6 @@ Fmatrix = zeros(0, 216);
 Pcorrected = zeros(0, 3);
 
 h = 1;
-disp(size(u,2))
-disp(size(u{1},1))
 for n = 1:size(u, 2)
     for x = 1:size(u{n}, 1)
         g = 1;
@@ -19,7 +17,6 @@ for n = 1:size(u, 2)
                    By = nchoosek(5,j)*((1-vy)^(5-j))*(vy^j);
                    Bz = nchoosek(5,k)*((1-vz)^(5-k))*(vz^k);
                    Fmatrix(h, g) = Bx*By*Bz;
-
                    g = g + 1;
                 end
             end
@@ -29,7 +26,6 @@ for n = 1:size(u, 2)
 end
 
 i = 1;
-disp(size(p{1},1))
 for n = 1:size(p, 2)
     for x = 1:size(p{n}, 1)
         Pcorrected(i, 1) = p{1, n}(x, 1);
@@ -38,11 +34,5 @@ for n = 1:size(p, 2)
         i = i + 1;
     end
 end
-disp(Pcorrected);
-%coefficients = Fmatrix\Pcorrected;
-coefficients = inv(Fmatrix.'*Fmatrix)*Fmatrix.'*Pcorrected;
-
-disp(Pcorrected-Fmatrix*coefficients);
-%disp(Fmatrix);
-%disp(coefficients);
-%disp(Pcorrected);
+coefficients = Fmatrix\Pcorrected;
+%coefficients = inv(Fmatrix.'*Fmatrix)*Fmatrix.'*Pcorrected;
