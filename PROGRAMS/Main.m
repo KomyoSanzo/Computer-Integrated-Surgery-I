@@ -54,7 +54,6 @@ function Main(name)
     
     % Calculate registration frame from fidlocations and ct fidlocations
     [R_reg, p_reg] = CloudToCloud(ctfid, fid_locations);
-    R_reg = inv(R_reg);
     
     % Correct new values using Bernstein coefficients and re-parse
     U_nav = ScaleToBox(emnav, mini, maxi);
