@@ -1,18 +1,19 @@
-function [BodyA, TipA, BodyB, TipB, TriangleList] = Parse(name)
+function [BodyA, TipA, BodyB, TipB, TriangleList, Readings] = Parse(name)
 %PARSE Takes in the front of text file's name and reads in the necessary
 %information to be returned.
 
     %The file header has the relevant suffix added and run through helper
     %functions which formats the information to be returned
-    [BodyA, TipA] = parseBody('../DATA/Problem3-BodyA.txt');
-    [BodyB, TipB] = parseBody('../DATA/Problem3-BodyB.txt');
+    [BodyA, TipA, NumA] = parseBody('../DATA/Problem3-BodyA.txt');
+    [BodyB, TipB, NumB] = parseBody('../DATA/Problem3-BodyB.txt');
     TriangleList = parseMesh('../DATA/Problem3Mesh.sur');
-%    Readings = parseReadings(strcat('../DATA/PA3-', name, '-SampleReadingsTest.txt'));
+    Readings = parseReadings(strcat('../DATA/PA3-', name, '-SampleReadingsTest.txt'), NumA, NumB);
     
-    function [BodyPoints, TipPoint] = parseBody(filename)
+    function [BodyPoints, TipPoint, Num] = parseBody(filename)
         M = csvread(filename, 1, 0);
         BodyPoints = M(1:(size(M, 1)-1), :);
         TipPoint = M(size(M, 1), :);
+        Num = size(M, 1) - 1;
     end
 
     function TriangleList = parseMesh(filename)
@@ -32,16 +33,22 @@ function [BodyA, TipA, BodyB, TipB, TriangleList] = Parse(name)
         end
     end
 
-    function Readings = parseReadings(filename)
+    function Readings = parseReadings(filename, NumA, NumB)
         M = csvread(filename, 1, 0);
         info = fileread(filename);
         info = strsplit(info(1,:), ',');
         SampNum = str2double(info(2));
-        Ns = str2double(info(1));
-        R = cell(SampNum,1);
+        NumS = str2double(info(1));
+        Readings = cell(SampNum,2);
+        i = 1;
         for n = 1:SampNum
-            N = 1 + (n - 1)*(gN);
-            R{n, 1} =  M(N:(N+gN-1), :,:);
+            A = M(i: i + NumA - 1, :);
+            i = i + NumA;
+            B = M(i: i + NumB - 1, :);
+            i = i + NumB;
+            i = i + (NumS - NumB - NumA);
+            Readings{n, 1} = A;
+            Readings{n, 2} = B;
         end
     end
 

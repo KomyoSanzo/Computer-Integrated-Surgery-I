@@ -1,1 +1,1 @@
-[BodyA, TipA, BodyB, TipB, TriangleList] = Parse('A-Debug');
+[BodyA, TipA, BodyB, TipB, TriangleList, Readings] = Parse('A-Debug');
