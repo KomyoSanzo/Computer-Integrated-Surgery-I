@@ -4,10 +4,10 @@ function [BodyA, TipA, BodyB, TipB, VerticesPoints, TrianglePoints, NeighborPoin
 
     %The file header has the relevant suffix added and run through helper
     %functions which formats the information to be returned
-    [BodyA, TipA] = parseBody(strcat('../DATA/', name, 'Problem3-BodyA.txt'));
-    [BodyB, TipB] = parseBody(strcat('../DATA/', name, 'Problem3-BodyB.txt'));
-    [VerticesPoints, TrianglePoints] = parseMesh(strcat('../DATA/', name, 'Problem3.sur'));
-    Readings = parseOptpivot(strcat('../DATA/', name, '-optpivot.txt'));
+    [BodyA, TipA] = parseBody(strcat('../DATA/Problem3-BodyA.txt'));
+    [BodyB, TipB] = parseBody(strcat('../DATA/Problem3-BodyB.txt'));
+    [VerticesPoints, TrianglePoints, NeighborPoints] = parseMesh(strcat('../DATA/Problem3.sur'));
+    Readings = parseOptpivot(strcat('../DATA/pa3-', name, '-SampleReadings.txt'));
     
     function [BodyPoints, TipPoint] = parseBody(filename)
         M = csvread(filename, 1, 0);
