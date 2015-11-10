@@ -1,1 +1,1 @@
-[BodyA, TipA, BodyB, TipB, VerticesPoints, TrianglePoints, NeighborPoints, Readings] = Parse(name)
+[BodyA, TipA, BodyB, TipB, TriangleList] = Parse('A-Debug');
