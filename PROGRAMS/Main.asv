@@ -1,0 +1,23 @@
+[BodyA, TipA, BodyB, TipB, TriangleList, Readings] = Parse('A-Debug');
+
+%Get frame transformations for A and B
+% RlistA = cell(size(Readings,1), 1);
+% plistA = cell(size(Readings,1), 1);
+% RlistB = cell(size(Readings,1), 1);
+% plistB = cell(size(Readings,1), 1);
+d = zeros(size(Readings,1), 3);
+for i = 1:size(Readings,1)
+    averageA = VectorAverage(Readings{i, 1});
+    averageB = VectorAverage(Readings{i, 2});
+%     inputA = zeros(size(Readings{i, 1}));
+%     inputB = zeros(size(Readings{i, 2}));
+%     for n = 1:size(inputA, 1)
+%         inputA(n, :) = Readings{i, 1}(n,:) - averageA;
+%     end
+%     for n = 1:size(inputB, 1)
+%         inputB(n, :) = Readings{i, 2}(n,:) - averageB;
+%     end
+    [RlistA, plistA] = CloudToCloud(BodyA, Readings{i, 1});
+    [RlistB, plistB] = CloudToCloud(BodyB, Readings{i, 2});
+    d(i, :) = inv(RlistB)*RlistA*
+end
