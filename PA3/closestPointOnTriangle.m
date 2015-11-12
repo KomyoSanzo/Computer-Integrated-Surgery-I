@@ -11,17 +11,15 @@ function [ c ] = closestPointOnTriangle( triangle, point )
     mu=lstSquares(2);
     c = p + lambda*(q-p) + mu*(r-p);
     
-    
-    if lambda >= 0 && mu >= 0 && (lambda + mu) <= 1
-        return;
-    elseif lambda < 0
+    if lambda < 0
         c=ProjectOnSegment(c,r,p);
     elseif mu < 0
         c=ProjectOnSegment(c,p,q);
-    elseif (lambda + mu) > 1
+    elseif lambda + mu > 1
         c=ProjectOnSegment(c,q,r);
+    else
+        return;
     end
-    
 
     function [ c ] = ProjectOnSegment(c,p,q)
         lmbda = dot(c-p, q-p)/dot(q-p,q-p);
