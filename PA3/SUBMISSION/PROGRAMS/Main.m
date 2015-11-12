@@ -8,9 +8,9 @@ function Main(name)
     %Parse data from files
     [BodyA, TipA, BodyB, ~, TriangleList, Readings] = Parse(name);
     
-    %Find transformation at each frame between the tracker and pointers and
+    %Find transformation at each frame between the pointers A and
     %and B using CloudToCloud and then use this information to find the
-    %point at Atip at each frame in tracker coordinates.
+    %point at Atip at each frame in rigid body B coordinates.
     d = zeros(size(Readings,1), 3);
     for i = 1:size(Readings,1)
         [RlistA, plistA] = CloudToCloud(BodyA, Readings{i, 1});
@@ -22,8 +22,8 @@ function Main(name)
     diff = zeros(size(d, 1), 1);
     
     %Use linearSearch to find the closest point on the given surface mesh
-    %to each of the points on the bone in tracker space. Find the distance
-    %between them.
+    %to each of the points on the bone in rigid body B coordinates. Find
+    %the distances between them.
     for i = 1:size(d, 1)
         c(i, :) = linearSearch(TriangleList, d(i, :));
         xdist = (c(i,1)- d(i,1))^2;
