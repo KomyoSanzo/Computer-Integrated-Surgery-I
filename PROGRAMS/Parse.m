@@ -1,13 +1,15 @@
 function [BodyA, TipA, BodyB, TipB, TriangleList, Readings] = Parse(name)
 %PARSE Takes in the front of text file's name and reads in the necessary
 %information to be returned.
+%INPUT: Filename prefix
+%OUTPUT: All data from relevant files in formated matrices and cells
 
     %The file header has the relevant suffix added and run through helper
     %functions which formats the information to be returned
-    [BodyA, TipA, NumA] = parseBody('../DATA/Problem3-BodyA.txt');
-    [BodyB, TipB, NumB] = parseBody('../DATA/Problem3-BodyB.txt');
-    TriangleList = parseMesh('../DATA/Problem3Mesh.sur');
-    Readings = parseReadings(strcat('../DATA/PA3-', name, '-SampleReadingsTest.txt'), NumA, NumB);
+    [BodyA, TipA, NumA] = parseBody('../INPUT/Problem3-BodyA.txt');
+    [BodyB, TipB, NumB] = parseBody('../INPUT/Problem3-BodyB.txt');
+    TriangleList = parseMesh('../INPUT/Problem3Mesh.sur');
+    Readings = parseReadings(strcat('../INPUT/PA3-', name, '-SampleReadingsTest.txt'), NumA, NumB);
     
     function [BodyPoints, TipPoint, Num] = parseBody(filename)
         M = csvread(filename, 1, 0);

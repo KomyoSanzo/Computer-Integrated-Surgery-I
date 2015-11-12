@@ -4,6 +4,9 @@ function [ R, p ] = CloudToCloud( listOfPointsA, listOfPointsB )
 %   The two input variables should composed of an Nx3 sized arrays, where N
 %   is the number of vectors in each cloud. The first, second, and third
 %   indices should be the x, y, and z coordinates, respectively. 
+%   INPUT: Two lists of points to find cloud to cloud transfromation
+%   betwen.
+%   OUPUT: A rotation and displacement matrix
 
 %The number of points for both variables should be the same. 
 numberOfPoints = length(listOfPointsA(:,1));
