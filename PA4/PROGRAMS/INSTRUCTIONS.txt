@@ -1,0 +1,12 @@
+Erica Schwarz
+Willis Wang
+Computer Integrated Surgery
+Programing Assignment 1
+
+Instructions:
+
+Call Main('filename_prefix') after ensuring that all the programs specified
+in the README are in the same directory PROGRAMS as Main.m. Note that our program
+assumes all input data is in the INPUT folder (same level as PROGRAMS). Main.m will
+automatically output a textfile after being called. Note that our program will save the
+output into the OUTPUT folder which is on the same level as the PROGRAMS folder.
