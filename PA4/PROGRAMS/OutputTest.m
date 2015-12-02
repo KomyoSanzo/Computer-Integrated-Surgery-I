@@ -3,12 +3,12 @@ function [ output_args ] = OutputTest(name)
 %particular file. Used for error testing to check the differences between
 %our values and the ones provided. 
 
-Expected = csvread(strcat('../DATA/pa3-', name, '-Output.txt'), 1, 0);
-Expected_info = fileread(strcat('../DATA/pa3-', name, '-Output.txt'));
+Expected = csvread(strcat('../DATA/pa4-', name, '-Output.txt'), 1, 0);
+Expected_info = fileread(strcat('../DATA/pa4-', name, '-Output.txt'));
 Expected_info = strsplit(Expected_info(1,:), ',');
 
-Actual = csvread(strcat('../OUTPUT/pa3-', name, '-Output.txt'), 1, 0);
-Actual_info = fileread(strcat('../OUTPUT/pa3-', name, '-Output.txt'));
+Actual = csvread(strcat('../OUTPUT/pa4-', name, '-Output.txt'), 1, 0);
+Actual_info = fileread(strcat('../OUTPUT/pa4-', name, '-Output.txt'));
 Actual_info = strsplit(Actual_info(1,:), ',');
 
 Dmax = 0;

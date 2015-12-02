@@ -9,7 +9,7 @@ function [BodyA, TipA, BodyB, TipB, TriangleList, Readings] = Parse(name)
     [BodyA, TipA, NumA] = parseBody('../INPUT/Problem3-BodyA.txt');
     [BodyB, TipB, NumB] = parseBody('../INPUT/Problem3-BodyB.txt');
     TriangleList = parseMesh('../INPUT/Problem3Mesh.sur');
-    Readings = parseReadings(strcat('../INPUT/PA3-', name, '-SampleReadingsTest.txt'), NumA, NumB);
+    Readings = parseReadings(strcat('../INPUT/PA4-', name, '-SampleReadingsTest.txt'), NumA, NumB);
     
     function [BodyPoints, TipPoint, Num] = parseBody(filename)
         M = csvread(filename, 1, 0);
