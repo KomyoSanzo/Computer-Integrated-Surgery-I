@@ -1,4 +1,4 @@
-	name = 'A-Debug';
+function Main(name)
     %Iterative matching ICP protocol
     %INPUT: Filename prefix of data to match
     %OUTPUT: Writes file with points on bone with respect to pointer B, the
@@ -31,6 +31,8 @@
     %Finds initial total difference between points for determining
     %convergence
     diff_tot = 0;
+    out_thresh = 5;
+    idx = 1;
     for i = 1:size(d, 1)
         c(i, :) = linearSearch(TriangleList, d(i, :));
         xdist = (c(i,1)- d(i,1))^2;
@@ -50,13 +52,8 @@
     end
 
     %Iteration loop
-    out_thresh = 5;
     diff_old = realmax;
-    while diff_tot < diff_old;
-        disp('Diff_tot:');
-        disp(diff_tot);
-        disp('Diff_old:');
-        disp(diff_old);
+    while (diff_old - diff_tot) > 0.00001;
         idx = 1;
         c_valid = zeros(0, 3);
         d_valid = zeros(0, 3);
@@ -79,8 +76,6 @@
         for i = 1:size(d, 1)
             d(i, :) = Rreg*d(i, :).' + preg;
         end
-        disp('Diff_tot:');
-        disp(diff_tot);
     end
     
     %Final distances
@@ -102,4 +97,4 @@
     fprintf(fileID, header);
     dlmwrite(filename, output, '-append', 'delimiter', '\t', 'roffset', 1, 'precision', '%5.2f');
     fclose(fileID);
-    
+end
