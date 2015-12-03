@@ -48,7 +48,7 @@ end
 %against a linear search when there is a large error. 
 if point(axis) >= node.center(axis) && node.hasLeft() && point(axis) - minimumDistance <= node.center(axis)
     [minimumDistance, closestPoint] = KDTreeSearch(node.leftNode, level+1, point, minimumDistance, closestPoint);
-elseif node.hasRight() && point(axis) + minimumDistance >= node.center(axis)
+elseif point(axis) < node.center(axis) && node.hasRight() && point(axis) + minimumDistance >= node.center(axis)
     [minimumDistance, closestPoint] = KDTreeSearch(node.rightNode, level+1, point, minimumDistance, closestPoint);
 end
 
