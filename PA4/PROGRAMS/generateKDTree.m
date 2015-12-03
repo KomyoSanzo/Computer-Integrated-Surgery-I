@@ -6,6 +6,10 @@ function [ returnTree ] = generateKDTree(level, listOfTriangles, centroids)
     end
     
     axis = mod(level, 3) + 1;
+    axis = mod(level, 3);
+    if axis == 0
+        axis = 3;
+    end
     
     sortedCenters = sortrows(centroids, axis);
     

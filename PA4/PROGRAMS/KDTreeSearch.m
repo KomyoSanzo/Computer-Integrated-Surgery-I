@@ -1,6 +1,10 @@
-function [minimumDistance, closestPoint] = KDTreeSearch( node, level, point, currentDistance, currentPoint)
+ function [minimumDistance, closestPoint] = KDTreeSearch( node, level, point, currentDistance, currentPoint)
 
 axis = mod(level, 3) + 1;
+axis = mod(level, 3);
+if axis == 0
+    axis = 3;
+end
 
 if node.isLeaf()
     closestPoint = closestPointOnTriangle(node.vertices,point);
