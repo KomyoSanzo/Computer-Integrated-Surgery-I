@@ -6,9 +6,9 @@ function [BodyA, TipA, BodyB, TipB, TriangleList, Readings] = Parse(name)
 
     %The file header has the relevant suffix added and run through helper
     %functions which formats the information to be returned
-    [BodyA, TipA, NumA] = parseBody('../INPUT/Problem4-BodyA.txt');
-    [BodyB, TipB, NumB] = parseBody('../INPUT/Problem4-BodyB.txt');
-    TriangleList = parseMesh('../INPUT/Problem4MeshFile.sur');
+    [BodyA, TipA, NumA] = parseBody('../INPUT/Problem3-BodyA.txt');
+    [BodyB, TipB, NumB] = parseBody('../INPUT/Problem3-BodyB.txt');
+    TriangleList = parseMesh('../INPUT/Problem3Mesh.sur');
     Readings = parseReadings(strcat('../INPUT/PA4-', name, '-SampleReadingsTest.txt'), NumA, NumB);
     
     function [BodyPoints, TipPoint, Num] = parseBody(filename)

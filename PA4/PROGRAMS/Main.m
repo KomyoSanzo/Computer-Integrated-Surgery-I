@@ -1,4 +1,4 @@
-function Main(name)
+name = 'A-Debug';
     %Iterative matching ICP protocol
     %INPUT: Filename prefix of data to match
     %OUTPUT: Writes file with points on bone with respect to pointer B, the
@@ -38,10 +38,9 @@ function Main(name)
         centroids (i, 4) = i;
     end
     root = generateKDTree(1, TriangleList, centroids);
-    idx = 1;
-    c_valid = zeros(0, 3);
-    d_valid = zeros(0, 3);
     diff_tot = 0;
+    out_thresh = 5;
+    idx = 1;
     for i = 1:size(d, 1)
         [~, c(i, :)] = KDTreeSearch(root, 1, d(i, :), inf, [0 0 0]);
         xdist = (c(i,1)- d(i,1))^2;
@@ -49,9 +48,11 @@ function Main(name)
         zdist = (c(i,3) - d(i,3))^2;
         diff(i) = sqrt(xdist + ydist + zdist);
         diff_tot = diff_tot + diff(i);
-        d_valid(idx, :) = d(i, :);
-        c_valid(idx, :) = c(i, :);
-        idx = idx + 1;
+        if diff < out_thresh
+            d_valid(idx, :) = d(i, :);
+            c_valid(idx, :) = c(i, :);
+            idx = idx + 1;
+        end
     end
     res_sum(res_idx) = diff_tot;
     res_idx = res_idx + 1;
@@ -59,12 +60,8 @@ function Main(name)
     for i = 1:size(d, 1)
         d(i, :) = Rreg*d(i, :).' + preg;
     end
-    res_sum(res_idx) = diff_tot;
-    res_idx = res_idx + 1;
 
     %Iteration loop
-    diff_avg = mean(diff);
-    diff_std = std(diff);
     diff_old = realmax;
     while (diff_old - diff_tot) > 0.00001;
         idx = 1;
@@ -79,14 +76,12 @@ function Main(name)
             zdist = (c(i,3) - d(i,3))^2;
             diff(i) = sqrt(xdist + ydist + zdist);
             diff_tot = diff_tot + diff(i);
-            if diff(i) < (diff_avg + diff_std)
+            if diff < out_thresh
                 d_valid(idx, :) = d(i, :);
                 c_valid(idx, :) = c(i, :);
                 idx = idx + 1;
             end
         end
-        diff_avg = mean(diff);
-        diff_std = std(diff);
         res_sum(res_idx) = diff_tot;
         res_idx = res_idx + 1;
         [Rreg, preg] = CloudToCloud(d_valid, c_valid);
@@ -98,11 +93,7 @@ function Main(name)
     diff_tot = 0;
     %Final distances (accomodates edge cases of KD trees)
     for i = 1:size(d, 1)
-        if diff(i) < (diff_avg)
-            [~, c(i, :)] = KDTreeSearch(root, 1, d(i, :), inf, [0 0 0]);
-        else
-            c(i, :) = linearSearch(TriangleList, d(i, :));
-        end
+        c(i, :) = linearSearch(TriangleList, d(i, :));
         xdist = (c(i,1)- d(i,1))^2;
         ydist = (c(i,2) - d(i,2))^2;
         zdist = (c(i,3) - d(i,3))^2;
@@ -112,6 +103,7 @@ function Main(name)
     res_sum(res_idx) = diff_tot;
     plot(res_sum);
     
+
     % Write to file
     output = horzcat(d, c, diff);
     num = size(output, 1);
@@ -122,6 +114,3 @@ function Main(name)
     fprintf(fileID, header);
     dlmwrite(filename, output, '-append', 'delimiter', '\t', 'roffset', 1, 'precision', '%5.2f');
     fclose(fileID);
-    
-end
-    
