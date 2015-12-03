@@ -1,31 +1,32 @@
 classdef Node < handle
-    %NODE Summary of this class goes here
-    %   Detailed explanation goes here
+    %NODE A node class for the KDTree
     
     properties
-        leftNode =[];
-        rightNode =[];
+        leftNode =[]; %left child
+        rightNode =[]; %right child
         parent = [];
-        center = [0, 0, 0];
-        vertices = zeros(3, 3);
+        center = [0, 0, 0]; %average of the vertices
+        vertices = zeros(3, 3); %The triangle vertices
         
-        level;
-        index;
+        level; %level of the node
+        index; %index of the axis of the node
         
-        
-        minimumDis = inf;
-        closestPoint = [0, 0, 0];
         
     end
     
     methods
-        
+        %constructor
+        %INPUT: cent. the center of the triangle.
+        %INPUT: ind. The index of the triangle.
+        %INPUT: l. the level of the triangle
+        %OUTPUT: The object class.
         function obj = Node(cent, ind, l)
             obj.center = cent;
             obj.index = ind;
             obj.level = l;
         end
         
+        %checks if a left child exists
         function returnVal = hasLeft(obj)
             if isempty(obj.leftNode)
                 returnVal = false;
@@ -34,6 +35,7 @@ classdef Node < handle
             end
         end
         
+        %checks if a right child exists
         function returnVal = hasRight(obj)
             if isempty(obj.rightNode)
                 returnVal = false;
@@ -42,6 +44,8 @@ classdef Node < handle
             end
         end
         
+        
+        %checks if is a leaf
         function returnVal = isLeaf(obj)
             if obj.hasRight() || obj.hasLeft()
                 returnVal = false; 
