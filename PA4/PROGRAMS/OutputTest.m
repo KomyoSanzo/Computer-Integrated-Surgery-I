@@ -1,4 +1,4 @@
-function [ output_args ] = OutputTest(name)
+function OutputTest(name)
 %OUTPUTTEST Function that tests the actual and expected output from a
 %particular file. Used for error testing to check the differences between
 %our values and the ones provided. 
@@ -35,11 +35,9 @@ for i = 1:length(Actual)
         Xmax = Xdifference;
     end
 end
-
-disp(['Your max distance between tracker points expected and actual values is: ', num2str(Dmax)])
-disp(['Your max distance between closest points expected and actual values is: ', num2str(Cmax)])
-disp(['Your max distance between difference expected and actual values is: ', num2str(Xmax)])
-    
-
+disp(['Your max distance between tracker points expected and actual values is: ', num2str(Dmax)]);
+disp(['Your max distance between closest points expected and actual values is: ', num2str(Cmax)]);
+disp(['Your max distance between difference expected and actual values is: ', num2str(Xmax)]);
+disp(['The max difference betweeen closest points you found is: ', num2str(max(Actual(:, 7)))]);
+disp(['The max difference betweeen closest points in the sample output is: ', num2str(max(Expected(:, 7)))]);
 end
-
