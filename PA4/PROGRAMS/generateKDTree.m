@@ -14,6 +14,7 @@ function [ returnTree ] = generateKDTree(level, listOfTriangles, centroids)
     if size(centroids, 1) == 1
         returnTree = Node(centroids(:,1:3), centroids(:,4), level);
         returnTree.vertices = listOfTriangles{centroids(:,4)};
+        return;
     end
     
     
