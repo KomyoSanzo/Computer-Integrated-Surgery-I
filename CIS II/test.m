@@ -1,17 +1,17 @@
 %Load skull and defect point clouds
 ptCloudDefect = pcread('orig.ply');
 ptCloudSkull = pcread('origFull.ply');
-pcshow(ptCloudDefect);
 
 %Fit sphere to defect
+pcshow(ptCloudDefect);
 maxDistance = 0.1;
-[defectSphere,defectInlierIndices] = pcfitsphere(ptCloud,maxDistance);
-defectInliers = select(ptCloud,inlierIndices);
+[defectSphere,defectInlierIndices] = pcfitsphere(ptCloudDefect,maxDistance);
+defectInliers = select(ptCloudDefect,defectInlierIndices);
 
 %Fit sphere to skull
-pcshow(ptCloudFull);
+pcshow(ptCloudSkull);
 maxDistance = 0.1;
-[skullSphere, skullInlierIndices] = pcfitsphere(ptCloudFull,maxDistance);
+[skullSphere, skullInlierIndices] = pcfitsphere(ptCloudSkull,maxDistance);
 
 %Shift models to be concentric
 centerDefect = defectSphere.Center;
@@ -37,7 +37,7 @@ maxDistance = 5;
 [outerDefectSphere, defectInlierIndicesOuter] = pcfitsphere(ptCloudDefectCentered,maxDistance);
 ptCloudDefectOuter = select(ptCloudDefectCentered,defectInlierIndicesOuter);
 figure(6);
-pcshow(globe4);
+pcshow(ptCloudDefectOuter);
 
 %ICP from segmented defect to skull
 ptCloudDefectOuterDown = pcdownsample(ptCloudDefectOuter,'random',0.25);
