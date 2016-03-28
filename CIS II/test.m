@@ -1,8 +1,10 @@
 %Load skull and defect point clouds
-ptCloudDefect = pcread('orig.ply');
-ptCloudSkull = pcread('origFull.ply');
+ptCloudDefect = pcread('orig9.ply');
+ptCloudSkull = pcread('origFull2.ply');
 
 %Fit sphere to defect
+figure(1);
+hold on;
 pcshow(ptCloudDefect);
 maxDistance = 0.1;
 [defectSphere,defectInlierIndices] = pcfitsphere(ptCloudDefect,maxDistance);
@@ -10,44 +12,51 @@ defectInliers = select(ptCloudDefect,defectInlierIndices);
 
 %Fit sphere to skull
 pcshow(ptCloudSkull);
+hold off;
 maxDistance = 0.1;
 [skullSphere, skullInlierIndices] = pcfitsphere(ptCloudSkull,maxDistance);
 
-%Shift models to be concentric
+%Shift models to be concentric at origin.
 centerDefect = defectSphere.Center;
 centerSkull = skullSphere.Center;
-translation = centerSkull - centerDefect;
 
-A = [1 0 0 0; ...
+ADefect = [1 0 0 0; ...
      0 1 0 0; ...
      0 0 1 0; ...
-     translation(1) translation(2) translation(3) 1];
-tform = affine3d(A);
+     -centerDefect(1) -centerDefect(2) -centerDefect(3) 1];
+tform = affine3d(ADefect);
 ptCloudDefectCentered = pctransform(ptCloudDefect,tform);
 
+ASkull = [1 0 0 0; ...
+     0 1 0 0; ...
+     0 0 1 0; ...
+     -centerSkull(1) -centerSkull(2) -centerSkull(3) 1];
+tform = affine3d(ASkull);
+ptCloudSkullCentered = pctransform(ptCloudSkull,tform);
+
 %Show centered meshes
-figure(1);
+figure(2);
 pcshow(ptCloudDefectCentered);
 hold on;
-pcshow(ptCloudSkull);
+pcshow(ptCloudSkullCentered);
 hold off;
 
 %Segment skull to get outer part (that should match with skull topology)
-maxDistance = 5;
-[outerDefectSphere, defectInlierIndicesOuter] = pcfitsphere(ptCloudDefectCentered,maxDistance);
-ptCloudDefectOuter = select(ptCloudDefectCentered,defectInlierIndicesOuter);
-figure(6);
-pcshow(ptCloudDefectOuter);
+% maxDistance = 5;
+% [outerDefectSphere, defectInlierIndicesOuter] = pcfitsphere(ptCloudDefectCentered,maxDistance);
+% ptCloudDefectOuter = select(ptCloudDefectCentered,defectInlierIndicesOuter);
+% figure(3);
+% pcshow(ptCloudDefectOuter);
 
 %ICP from segmented defect to skull
-ptCloudDefectOuterDown = pcdownsample(ptCloudDefectOuter,'random',0.25);
-ptCloudSkullDown = pcdownsample(ptCloudSkull,'random',0.25);
-tform = pcregrigid(ptCloudDefectOuterDown, ptCloudSkullDown);
+ptCloudDefectDown = pcdownsample(ptCloudDefectCentered,'random',0.75);
+ptCloudSkullDown = pcdownsample(ptCloudSkullCentered,'random',0.75);
+tform = pcregrigid(ptCloudDefectDown, ptCloudSkullDown);
 ptCloudDefectReg = pctransform(ptCloudDefectCentered,tform);
 
 %Show final point clouds
-figure(2);
+figure(4);
 pcshow(ptCloudDefectReg);
 hold on;
-pcshow(ptCloudSkull);
+pcshow(ptCloudSkullCentered);
 hold off;
